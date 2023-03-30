@@ -2,18 +2,41 @@
     "input": {
         "activation": "",
         "neurons": 2,
-        "data" : [
-            [1,1]
+        "data": [
+            [
+                0,
+                0
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                1,
+                1
+            ]
         ]
     },
-    "hidden" : {
-        "jumlah" : 1,
+    "hidden": {
+        "jumlah": 1,
         "activation": "LINEAR",
-        "bias" : 1,
-        "neuron" : [
+        "bias": 1,
+        "neuron": [
             [
-                [-10,20,20],
-                [30,-20,-20]
+                [
+                    -10,
+                    20,
+                    20
+                ],
+                [
+                    30,
+                    -20,
+                    -20
+                ]
             ]
         ]
     },
@@ -21,7 +44,11 @@
         "layer": "OUTPUT",
         "activation": "LINEAR",
         "neuron": [
-            [-30,20,20]
+            [
+                -30,
+                20,
+                20
+            ]
         ]
     }
 }
