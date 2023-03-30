@@ -1,0 +1,27 @@
+{
+    "input": {
+        "activation": "",
+        "neurons": 2,
+        "data" : [
+            [1,1]
+        ]
+    },
+    "hidden" : {
+        "jumlah" : 1,
+        "activation": "LINEAR",
+        "bias" : 1,
+        "neuron" : [
+            [
+                [-10,20,20],
+                [30,-20,-20]
+            ]
+        ]
+    },
+    "output": {
+        "layer": "OUTPUT",
+        "activation": "LINEAR",
+        "neuron": [
+            [-30,20,20]
+        ]
+    }
+}
