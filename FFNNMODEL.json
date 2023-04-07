@@ -4,49 +4,36 @@
         "neurons": 2,
         "data": [
             [
-                0,
-                0
-            ],
-            [
-                0,
-                1
-            ],
-            [
                 1,
-                0
-            ],
-            [
-                1,
-                1
+                2
             ]
         ]
     },
     "hidden": {
-        "activation": "SIGMOID",
+        "activation": "",
         "bias": 1,
         "neuron": [
-            [
-                [
-                    -10,
-                    20,
-                    20
-                ],
-                [
-                    30,
-                    -20,
-                    -20
-                ]
-            ]
+
         ]
     },
     "output": {
         "layer": "OUTPUT",
-        "activation": "SIGMOID",
+        "activation": "softmax",
         "neuron": [
             [
-                -30,
-                20,
-                20
+                1,
+                2,
+                3
+            ],
+            [
+                2,
+                1,
+                3
+            ],
+            [
+                3,
+                2,
+                1
             ]
         ]
     }
