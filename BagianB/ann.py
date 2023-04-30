@@ -21,6 +21,7 @@ class ANN:
             if (i == 0):
                 self.layers[i].setOutput(input, True)
                 continue
+            # h_k = f(b_k + W_k * h_k-1)
             self.layers[i].setOutput(self.layers[i].bias + np.dot(self.layers[i].weights, self.layers[i-1].output))
 
-        return self.layers[-1]
+        return self.layers[-1] # y = h(l)
