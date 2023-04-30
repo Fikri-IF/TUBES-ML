@@ -14,7 +14,8 @@ class ANN:
         self.layers.append(Layer(neuronTotal, activationFunction))
 
         if (len(self.layers) > 1):
-            self.layers[-1].set_weights(self.layers[-1].n_neuron, self.layers[-2].n_neuron)
+            # set weight untuk layer selain input layer
+            self.layers[-1].set_weights(self.layers[-1].neuronTotal, self.layers[-2].neuronTotal)
     
     def forwardPropagation(self, input):
         for i in range(len(self.layers)):
