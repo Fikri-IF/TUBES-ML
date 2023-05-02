@@ -40,9 +40,21 @@ def softmax(net):
     for i in net:
         res.append(math.exp(i) / sum)
     return res
+def difSoftmax(net):
+    res=np.empty()
+    sum=0
+    for i in net:
+        sum+= np.exp(i)/np.sum(np.exp(i)*(1-np.exp(i)/np.sum(np.exp(i))))
+    return sum
 
 def sse(t, output):
     sum = 0
     for t_i, output_i in zip(t, output):
         sum += (t_i - output_i)**2
     return sum
+def cross_entropy(t,output):
+    sum=0;
+    for t_i, output_i in zip(t, output):
+            sum += (t_i * np.log(output_i))
+    return sum
+   

@@ -3,7 +3,7 @@ import util
 
 class Layer:
     def __init__(self, neuronTotal, activationFunction):
-        self.neutonTotal = neuronTotal
+        self.neuronTotal = neuronTotal
         self.activationFunction = activationFunction.lower()
         self.weights = None
         self.bias = np.full(neuronTotal, 1) # set bias = 1
@@ -13,9 +13,9 @@ class Layer:
         # assign nilai random dengan range -0.05 sampai dengan 0.05
         self.weights = np.random.uniform(low = -0.05, high = 0.05, size =(rows, cols))
 
-    def setOutput(self, input, output, isInputLayer = False):
+    def setOutput(self, input, isInputLayer = False):
         if (isInputLayer):
-            self.output = output
+            self.output = input
         else:
             if (self.activationFunction == "linear"):
                 self.output = util.linear(input)
