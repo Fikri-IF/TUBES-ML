@@ -14,6 +14,7 @@ class Layer:
         self.weights = np.random.uniform(low = -0.05, high = 0.05, size =(rows, cols))
 
     def setOutput(self, input, isInputLayer = False):
+        self.input = input
         if (isInputLayer):
             self.output = input
         else:

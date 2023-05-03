@@ -8,40 +8,43 @@ def difLinear(net):
     return 1
 
 def sigmoid(net):
-    res = np.empty()
-    for i in net:
-        res.append(1/(1+math.exp(-i)))
+    res = np.zeros_like(net)
+    for index, value in np.ndenumerate(net):
+        res[index]=1/(1+math.exp(-value))
     return res
 
 def difSigmoid(net):
-    res = np.empty()
-    for i in net:
-        res.append((1/(1+math.exp(-i))) * (1 - (1/(1+math.exp(-i)))))
+    res = np.zeros_like(net)
+    for index, value in np.ndenumerate(net):
+        res[index] = (1/(1+math.exp(-value))) * (1 - (1/(1+math.exp(-value))))
+    return res
 
 def relu(net):
-    res = np.empty()
-    for i in net:
-        res.append(max(0,i))
+    res = np.zeros_like(net)
+    for index, value in np.ndenumerate(net):
+        res[index] = max(0, value)
     return res
 
 def difRelu(net):
-    res = np.empty()
-    for i in net:
-        if (i < 0):
-            res.append(0)
+    res = np.zeros_like(net)
+
+    for index, value in np.ndenumerate(net):
+        if (value < 0):
+            res[index] = 0
         else:
-            res.append(1)
+            res[index]=1
+    return res
 
 def softmax(net):
-    res = np.empty()
+    res = np.zeros_like(net)
     sum = 0
-    for i in net:
-        sum += math.exp(i)
-    for i in net:
-        res.append(math.exp(i) / sum)
+    for index, value in np.ndenumerate(net):
+        sum += math.exp(value)
+    for index, value in np.ndenumerate(net):
+        res[index] (math.exp(value) / sum)
     return res
+
 def difSoftmax(net):
-    res=np.empty()
     sum=0
     for i in net:
         sum+= np.exp(i)/np.sum(np.exp(i)*(1-np.exp(i)/np.sum(np.exp(i))))
@@ -52,9 +55,18 @@ def sse(t, output):
     for t_i, output_i in zip(t, output):
         sum += (t_i - output_i)**2
     return sum
+
+def difSse(t,output):
+    # print("kepo",t)
+    # print("kepo0",output)
+    # print("kepo",t.shape[0],output.shape[0])
+    return t-output
+
 def cross_entropy(t,output):
-    sum=0;
+    sum=0
     for t_i, output_i in zip(t, output):
             sum += (t_i * np.log(output_i))
     return sum
-   
+
+def difCrossEntropy(t,output):
+    return -(t/output)+(1-t)/(1-output)
