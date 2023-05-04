@@ -108,40 +108,23 @@ class ANN:
             self.layers[i].bias  = self.layers[i].bias - (self.learningRate * np.mean(np.dot(np.array(dInput).T, val)))
     
     def train(self, x_train, y_train):
-        totalIterations = len(x_train) / self.batchSize
-        self.iteration = 0
-        while True:
-            total_error = 0
-            i = 0
-            while True:
-                print("NILAI i", i)
-                if (len(x_train) != self.batchSize):
-                    input = x_train[i*self.batchSize:(i+1)*self.batchSize]
-                    target = np.array(y_train[i*self.batchSize:(i+1)*self.batchSize]).T
-                    # target = np.reshape(target, (target.shape[0], 1))
-                else:
-                    print("pp",totalIterations)
-                    input = x_train[:int(totalIterations)+i]
-                    target = np.array(y_train[:int(totalIterations)+i]).T
-                   # target = np.reshape(target, (target.shape[0], 1))
-                # input = x_train[i*self.batchSize:(i+1)*self.batchSize]
-                # target = np.array(y_train[i*self.batchSize:(i+1)*self.batchSize]).T
+        cumulativeError = float('inf')
+        totalEpoch = int(len(x_train) / self.batchSize)
+        for epoch in range(totalEpoch): 
+            for batch in range(0, len(x_train), self.batchSize):
+                x_batch = x_train[batch:batch+self.batchSize]
+                y_batch = y_train[batch:batch+self.batchSize]
 
-                prediction = self.forwardPropagation(input)
+                # feed forward
+                prediction = self.forwardPropagation(x_batch)
+
+                # backward dan update bobot
                 self.backwardPropagation(prediction)
-                e = np.mean(util.sse(target, prediction)).mean()
-                total_error += e
-                i += 1
-                self.iteration += 1
-                if ((self.iteration < self.maxIter) and (i<totalIterations) and (err > self.errorThreshold)):
-                    if(self.iteration<self.maxIter):
-                        print("Stopped By Max Iterations")
-                    if (i<totalIterations):
-                        print("Stopped By Batch Size")
-                    if (err > self.errorThreshold):
-                        print("Stopped By Error Threshold")
-                    break
-            err = total_error
-            if (err > self.errorThreshold):
+
+                e = np.mean(util.sse(y_batch, prediction)).mean()
+                cumulativeError += e
+            if cumulativeError <= self.errorThreshold or epoch == totalEpoch-1 or batch == self.maxIter:
+                print("Training stopped at epoch:", epoch+1, "with cumulative error:", cumulativeError)
                 break
+            cumulativeError = 0.0
         
