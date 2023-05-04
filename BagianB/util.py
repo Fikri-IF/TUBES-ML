@@ -20,6 +20,7 @@ def difSigmoid(net):
     return res
 
 def relu(net):
+    print("MASUKK RELU")
     res = np.zeros_like(net)
     for index, value in np.ndenumerate(net):
         res[index] = max(0, value)
@@ -38,11 +39,24 @@ def difRelu(net):
 def softmax(net):
     res = np.zeros_like(net)
     sum = 0
+    for value in np.nditer(net):
+        sum += np.exp(value)
     for index, value in np.ndenumerate(net):
-        sum += math.exp(value)
-    for index, value in np.ndenumerate(net):
-        res[index] (math.exp(value) / sum)
+        res[index] = (np.exp(value) / sum)
     return res
+# def softmax(net):
+#     res = np.zeros_like(net)
+#     print("panjang net")
+#     print(len(net))
+#     sum = np.sum(np.exp(net))    
+#     # sum=0
+#     # for index, value in np.ndenumerate(net):
+#     #     print("val",value)
+        
+#     #     sum += math.exp(value)
+#     for index, value in np.ndenumerate(net):
+#         res[index] = (np.exp(value) / sum)
+#     return res
 
 def difSoftmax(net):
     sum=0
