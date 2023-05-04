@@ -20,36 +20,34 @@ class ANN:
             self.layers[-1].setWeights(weight)
     
     def forwardPropagation(self, input):
-        pred = []
         for i in range(len(self.layers)):
             if (i == 0):
                 print("INPUT AWAL")
                 print(input)
                 self.layers[i].setOutput(input, True)
                 continue
-            print("ITERASI", i)
-            print("\nOUTPUT SEBELUMNYA")
-            print(self.layers[i-1].output)
-            print("\nWEIGHT")
-            print(self.layers[i].weights)
-            print("\nBIAS")
-            print(self.layers[i].bias)
+            # print("ITERASI", i)
+            # print("\nOUTPUT SEBELUMNYA")
+            # print(self.layers[i-1].output)
+            # print("\nWEIGHT")
+            # print(self.layers[i].weights)
+            # print("\nBIAS")
+            # print(self.layers[i].bias)
             # h_k = f(b_k + W_k * h_k-1)
+            print("LOOP PERTAMA")
             result = np.dot(self.layers[i-1].output, self.layers[i].weights)
-            print("RESULT\n")
-            print(result)
+            # print("RESULT\n")
+            # print(result)
             self.layers[i].setOutput(self.layers[i].bias + result)
             print("\nOUTPUT")
             print(self.layers[i].output)
-            print(i)        
-        for i in range(len(self.layers[-1].output)):
-            pred.append(np.argmax(self.layers[-1].output[i]))
-        pred = np.array(pred).reshape(-1, 1)
-        return pred
-        # pred = np.argmax(self.layers[-1].output, axis = 1) # y = h(l)
-        # return np.reshape(pred, (pred.shape[0],1))
+            print(i)      
+
+        pred = np.argmax(self.layers[-1].output, axis = 1)
+        return np.reshape(pred, (pred.shape[0],1))
     
     def backwardPropagation(self, prediction):
+        print("MASUK BACKWARD")
         dE_dOut = 0
         val = 0
         for i in range (len(self.layers)):
@@ -112,11 +110,11 @@ class ANN:
     def train(self, x_train, y_train):
         totalIterations = len(x_train) / self.batchSize
         self.iteration = 0
-        err = 99
         while True:
             total_error = 0
             i = 0
             while True:
+                print("NILAI i", i)
                 if (len(x_train) != self.batchSize):
                     input = x_train[i*self.batchSize:(i+1)*self.batchSize]
                     target = np.array(y_train[i*self.batchSize:(i+1)*self.batchSize]).T
@@ -128,11 +126,6 @@ class ANN:
                    # target = np.reshape(target, (target.shape[0], 1))
                 # input = x_train[i*self.batchSize:(i+1)*self.batchSize]
                 # target = np.array(y_train[i*self.batchSize:(i+1)*self.batchSize]).T
-                
-                
-               
-                print("RESHAPE")
-                # print(target)
 
                 prediction = self.forwardPropagation(input)
                 self.backwardPropagation(prediction)

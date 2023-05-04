@@ -28,7 +28,6 @@ layers = data["model"]["layers"]
 ann.addLayer(data["model"]["input_size"], None, np.array(data["initial_weights"][0]), None)
 for i, layer in enumerate(layers):
     ann.addLayer(layer["number_of_neurons"], layer["activation_function"], np.array(data["initial_weights"][i][1:]), np.array(data["initial_weights"][i][0]))
-ann.addLayer(len(data["target"]), layer["activation_function"], np.array(data["initial_weights"][i][1:]), np.array(data["initial_weights"][-1][0]))
 print("Jumlah layer : " , ann.countLayer)
 print("Jumlah iterasi:", ann.maxIter)
 
