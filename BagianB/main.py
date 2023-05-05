@@ -1,9 +1,9 @@
 from ann import ANN as ann
 import numpy as np
 import json
-from sklearn.model_selection import train_test_split
-from sklearn.datasets import load_iris
-from sklearn.metrics import accuracy_score, f1_score, recall_score
+# from sklearn.model_selection import train_test_split
+# from sklearn.datasets import load_iris
+# from sklearn.metrics import accuracy_score, f1_score, recall_score
 
 filename = input("Test case file name: ")
 
@@ -13,7 +13,7 @@ def loadJSON(path):
 
 data = loadJSON(filename)
 data = data["case"]
-dataset = load_iris()
+# dataset = load_iris()
 
 # X = dataset.data
 # Y = dataset.target
@@ -45,6 +45,9 @@ pred = ann.forwardPropagation(X)
 
 # Print array weight untuk setiap layer
 for i in range(1, len(ann.layers)):
+    print("Bias {} weights".format(i))
+    print(ann.layers[i].bias)
+    print()
     print("Layer {} weights".format(i))
     print(ann.layers[i].weights)
     print("")

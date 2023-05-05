@@ -17,45 +17,26 @@ class ANN:
         if (len(self.layers) > 1):
             # set weight untuk layer selain input layer
             self.bias=bias
-            self.layers[-1].setWeights(weight)
+            for i in range(1,len(self.layers)):
+                self.layers[i].setWeights(weight)
     
     def forwardPropagation(self, input):
         for i in range(len(self.layers)):
             if (i == 0):
-                print("INPUT AWAL")
-                print(input)
                 self.layers[i].setOutput(input, True)
+                print("layer0",self.layers[0].output)
                 continue
-            # print("ITERASI", i)
-            # print("\nOUTPUT SEBELUMNYA")
-            # print(self.layers[i-1].output)
-            # print("\nWEIGHT")
-            # print(self.layers[i].weights)
-            # print("\nBIAS")
-            # print(self.layers[i].bias)
-            # h_k = f(b_k + W_k * h_k-1)
-            print("LOOP PERTAMA")
             result = np.dot(self.layers[i-1].output, self.layers[i].weights)
-            # print("RESULT\n")
-            # print(result)
             self.layers[i].setOutput(self.layers[i].bias + result)
-            print("\nOUTPUT")
-            print(self.layers[i].output)
-            print(i)      
+            print("layer",i,self.layers[i].output)
 
         pred = np.argmax(self.layers[-1].output, axis = 1)
         return np.reshape(pred, (pred.shape[0],1))
     
     def backwardPropagation(self, prediction):
-        print("MASUK BACKWARD")
         dE_dOut = 0
         val = 0
-        for i in range (len(self.layers)):
-            if (i == 0): 
-                continue # input layer tidak perlu update bobot
-
-            # perhitungan total error
-            
+        for i in range (1,len(self.layers)):            
             if (self.layers[i].activationFunction == "softmax"): # softmax menggunakan cross entropy
                 dE_dOut = util.difCrossEntropy(prediction, self.layers[-1].output)
                 # print("de",dE_dOut)
@@ -67,7 +48,6 @@ class ANN:
                 val = dE_dOut
 
             diffOut = 0
-
             for j in range(len(self.layers)-1-i):
                 if (self.layers[1-j].activationFunction == "softmax"):
                     diffOut = util.difSoftmax(self.layers[-1-j].input)
@@ -90,23 +70,23 @@ class ANN:
 
             index = -1- (len(self.layers)-1-i)
             if (self.layers[index].activationFunction == "softmax"):
-                diffOut = util.difSoftmax(self.layers[index].output)
+                diffOut = util.difSoftmax(self.layers[index].input)
                 val = val * diffOut
             elif (self.layers[index].activationFunction=="relu"):
-                diffOut = util.difRelu(self.layers[index].output)
+                diffOut = util.difRelu(self.layers[index].input)
                 val = val * diffOut
             elif (self.layers[index].activationFunction=="linear"):
-                diffOut = util.difLinear(self.layers[index].output)                                        
+                diffOut = util.difLinear(self.layers[index].input)                                        
                 val = val * diffOut
             elif (self.layers[index].activationFunction=="sigmoid"):
-                diffOut = util.difSigmoid(self.layers[index].output)                                        
+                diffOut = util.difSigmoid(self.layers[index].input)                                        
                 val = val * diffOut
             else:
                 quit()
             dInput = self.layers[-2- (len(self.layers)-1-i)].output
-            self.layers[i].weights = self.layers[i].weights - (self.learningRate * np.dot(np.array(dInput).T,val))
-            self.layers[i].bias  = self.layers[i].bias - (self.learningRate * np.mean(np.dot(np.array(dInput).T, val)))
-    
+            # self.layers[i].weights=np.insert(self.layers[i].weights,0,self.layers[i].bias,axis=0)
+            self.layers[i].weights = self.layers[i].weights - (self.learningRate * np.dot((np.array(dInput)).T,(val)))
+            self.layers[i].bias  = self.layers[i].bias - (self.learningRate * np.mean(np.dot((np.array(dInput)).T,(val))))
     def train(self, x_train, y_train):
         cumulativeError = float('inf')
         totalEpoch = int(len(x_train) / self.batchSize)
