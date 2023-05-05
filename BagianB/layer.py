@@ -16,10 +16,15 @@ class Layer:
             self.bias = np.array(bias)
         else:
             self.bias = bias
-        self.output = None
+        self.output = None 
 
     def setWeights(self, weights):
         self.weights = np.array(weights)
+    
+    def setWeightsIris(self, rows, cols):
+         # assign nilai random dengan range -0.05 sampai dengan 0.05
+        self.bias = np.full(self.neuronTotal, 1) # set bias = 1
+        self.weights = np.random.uniform(low = -0.05, high = 0.05, size =(rows, cols))
 
     def setOutput(self, input, isInputLayer = False):
         self.input = input

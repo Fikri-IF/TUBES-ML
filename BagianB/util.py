@@ -20,7 +20,6 @@ def difSigmoid(net):
     return res
 
 def relu(net):
-    print("MASUKK RELU")
     res = np.zeros_like(net)
     for index, value in np.ndenumerate(net):
         res[index] = max(0, value)
@@ -44,19 +43,6 @@ def softmax(net):
     for index, value in np.ndenumerate(net):
         res[index] = (np.exp(value) / sum)
     return res
-# def softmax(net):
-#     res = np.zeros_like(net)
-#     print("panjang net")
-#     print(len(net))
-#     sum = np.sum(np.exp(net))    
-#     # sum=0
-#     # for index, value in np.ndenumerate(net):
-#     #     print("val",value)
-        
-#     #     sum += math.exp(value)
-#     for index, value in np.ndenumerate(net):
-#         res[index] = (np.exp(value) / sum)
-#     return res
 
 def difSoftmax(net):
     sum=0
@@ -65,22 +51,20 @@ def difSoftmax(net):
     return sum
 
 def sse(t, output):
-    sum = 0
-    for t_i, output_i in zip(t, output):
-        sum += (t_i - output_i)**2
-    return sum
+    # sum = 0
+    # for t_i, output_i in zip(t, output):
+    #     sum += (t_i - output_i)**2
+    # return sum/2
+    return np.sum((t - output)**2) / 2
 
 def difSse(t,output):
-    # print("kepo",t)
-    # print("kepo0",output)
-    # print("kepo",t.shape[0],output.shape[0])
-    return t-output
+    return output-t
 
-def cross_entropy(t,output):
-    sum=0
-    for t_i, output_i in zip(t, output):
-            sum += (t_i * np.log(output_i))
-    return sum
+def crossEntropy(t,output):
+    return -np.sum(t*np.log(output))
+    # for t_i, output_i in zip(t, output):
+    #         sum += (t_i * np.log(output_i))
+    # return sum
 
 def difCrossEntropy(t,output):
     return -(t/output)+(1-t)/(1-output)
