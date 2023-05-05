@@ -2,14 +2,20 @@ import numpy as np
 import util
 
 class Layer:
-    def __init__(self, neuronTotal, activationFunction, bias):
+    def __init__(self, neuronTotal, activationFunction, weight, bias):
         self.neuronTotal = neuronTotal
         if (activationFunction is not None):
             self.activationFunction = activationFunction.lower()
         else:
             self.activationFunction = activationFunction
-        self.weights = None
-        self.bias = bias
+        if (weight is not None):
+            self.weights = np.array(weight)
+        else:
+            self.weights = weight
+        if (bias is not None):
+            self.bias = np.array(bias)
+        else:
+            self.bias = bias
         self.output = None
 
     def setWeights(self, weights):

@@ -25,7 +25,7 @@ ann = ann(learningRate=data["learning_parameters"]["learning_rate"], errorThresh
 layersCount = len(data["model"]["layers"])
 layers = data["model"]["layers"]
 
-ann.addLayer(data["model"]["input_size"], None, np.array(data["initial_weights"][0]), None)
+ann.addLayer(data["model"]["input_size"], None, None, None)
 for i, layer in enumerate(layers):
     ann.addLayer(layer["number_of_neurons"], layer["activation_function"], np.array(data["initial_weights"][i][1:]), np.array(data["initial_weights"][i][0]))
 print("Jumlah layer : " , ann.countLayer)
